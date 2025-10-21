@@ -6,6 +6,7 @@ return {
       require("mason").setup({
         registries = {
           "github:mason-org/mason-registry",
+          "github:Crashdummyy/mason-registry", -- Roslyn
         },
       })
     end,
@@ -59,5 +60,9 @@ return {
         autocmd CursorHold * lua vim.diagnostic.open_float(nil, { focus = false })
       ]])
     end,
+  },
+  {
+    "seblyng/roslyn.nvim",
+    opts = {},
   },
 }
