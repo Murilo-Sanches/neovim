@@ -10,6 +10,5 @@ return {
   config = function()
     vim.keymap.set("n", "<C-n>", ":Neotree toggle left<CR>", {})
     vim.keymap.set("n", "<leader>e", ":Neotree focus<CR>", {})
-    vim.keymap.set("n", "<leader>bf", ":Neotree buffers reveal float<CR>", {})
   end,
 }
