@@ -5,10 +5,15 @@ return {
   {
     "lewis6991/gitsigns.nvim",
     config = function()
-      require("gitsigns").setup()
+      local gitsigns = require("gitsigns")
+      gitsigns.setup()
 
-      vim.keymap.set("n", "<leader>gp", ":Gitsigns preview_hunk<CR>", {})
-      vim.keymap.set("n", "<leader>gt", ":Gitsigns toggle_current_line_blame<CR>", {})
+      local wk = require("which-key")
+
+      wk.add({
+        { "<leader>gp", gitsigns.preview_hunk, desc = "Preview Hunk" },
+        { "<leader>gt", gitsigns.toggle_current_line_blame, desc = "Toggle Blame" },
+      })
     end,
   },
 }

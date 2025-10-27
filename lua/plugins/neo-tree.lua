@@ -8,7 +8,12 @@ return {
   },
   lazy = false,
   config = function()
-    vim.keymap.set("n", "<C-n>", ":Neotree toggle left<CR>", {})
-    vim.keymap.set("n", "<leader>e", ":Neotree focus<CR>", {})
+    local wk = require("which-key")
+
+    wk.add({
+      { "<leader>e", group = "Tree", icon = { icon = "", color = "green" } },
+      { "<leader>ef", ":Neotree focus<CR>", desc = "Focus" },
+      { "<leader>ee", ":Neotree toggle left<CR>", desc = "Toggle" },
+    })
   end,
 }

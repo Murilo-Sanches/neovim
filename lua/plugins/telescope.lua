@@ -9,6 +9,7 @@ return {
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
       local telescope = require("telescope")
+      local wk = require("which-key")
 
       telescope.setup({
         extensions = {
@@ -20,17 +21,23 @@ return {
 
       local builtin = require("telescope.builtin")
 
-      vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = "Telescope find files" })
-      vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = "Telescope live grep" })
-      vim.keymap.set('n', '<leader>fc', builtin.current_buffer_fuzzy_find, { desc = "Telescope live grep in current buffer" })
-      vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = "Telescope buffers" })
-      
-      vim.keymap.set('n', '<leader>gb', builtin.git_branches, { desc = "Telescope git branches" })
-      vim.keymap.set('n', '<leader>gs', builtin.git_status, { desc = "Telescope git status" })
-      vim.keymap.set('n', '<leader>gc', builtin.git_commits, { desc = "Telescope git commits" })
-      
-      vim.keymap.set('n', '<leader>ld', builtin.diagnostics, { desc = "Telescope lsp diagnostics" })
-      vim.keymap.set('n', '<leader>lq', builtin.quickfix, { desc = "Telescope lsp quickfix" })
+      wk.add({
+        { "<leader>f", group = "Telescope" },
+        { "<leader>ff", builtin.find_files, desc = "Find Files" },
+        { "<leader>fg", builtin.live_grep, desc = "Live Grep" },
+        { "<leader>fc", builtin.current_buffer_fuzzy_find, desc = "Buffer Live Grep" },
+        { "<leader>fb", builtin.buffers, desc = "Buffers" },
+
+        { "<leader>g", group = "Git" },
+        { "<leader>gb", builtin.git_branches, desc = "Branches" },
+        { "<leader>gs", builtin.git_status, desc = "Status" },
+        { "<leader>gc", builtin.git_commits, desc = "Commits" },
+
+        { "<leader>l", group = "LSP", icon = { icon = "ƒ", color = "grey" }  },
+        { "<leader>ld", function() builtin.diagnostics({ bufnr = 0 }) end, desc = "Diagnostics (Buffer)" },
+        { "<leader>lD", builtin.diagnostics, desc = "Diagnostics (Global)" },
+        { "<leader>lq", builtin.quickfix, desc = "Quickfix" },
+      })
 
       telescope.load_extension("ui-select")
     end,

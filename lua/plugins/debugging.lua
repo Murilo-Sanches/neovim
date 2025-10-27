@@ -8,6 +8,7 @@ return {
 	config = function()
 		require("dapui").setup()
 		require("dap-go").setup()
+		local wk = require("which-key")
 
 		local dap, dapui = require("dap"), require("dapui")
 
@@ -24,9 +25,12 @@ return {
 			dapui.close()
 		end
 
-		vim.keymap.set("n", "<Leader>dt", ":DapToggleBreakpoint<CR>")
-		vim.keymap.set("n", "<Leader>dc", ":DapContinue<CR>")
-		vim.keymap.set("n", "<Leader>dx", ":DapTerminate<CR>")
-		vim.keymap.set("n", "<Leader>do", ":DapStepOver<CR>")
+		wk.add({
+			{ "<leader>d", group = "Debugger" },
+			{ "<leader>dt", ":DapToggleBreakpoint<CR>", desc = "Toggle Breakpoint" },
+			{ "<leader>dc", ":DapContinue<CR>", desc = "Continue" },
+			{ "<leader>dx", ":DapTerminate<CR>", desc = "Terminate" },
+			{ "<leader>do", ":DapStepOver<CR>", desc = "Step Over" },
+		})
 	end,
 }
