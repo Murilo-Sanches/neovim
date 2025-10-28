@@ -25,6 +25,7 @@ return {
     config = function()
       local lspconfig = vim.lsp.config
       local blink = require("blink.cmp")
+      local wk = require("which-key")
 
       local servers = {
         lua_ls = {},
@@ -37,10 +38,12 @@ return {
         lspconfig[server] = config
       end
 
-      vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
-      vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, {})
-      vim.keymap.set("n", "<leader>gr", vim.lsp.buf.references, {})
-      vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {})
+      wk.add({
+        { "<leader>lk", vim.lsp.buf.hover, desc = "Hover" },
+        { "<leader>lgd", vim.lsp.buf.definition, desc = "Definition" },
+        { "<leader>lr", vim.lsp.buf.references, desc = "References" },
+        { "<leader>la", vim.lsp.buf.code_action, desc = "Action" },
+      })
 
       vim.diagnostic.config({
         virtual_text = {
