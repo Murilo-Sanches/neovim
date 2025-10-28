@@ -20,18 +20,22 @@ return {
   },
   {
     "neovim/nvim-lspconfig",
+    dependencies = { "saghen/blink.cmp" },
     lazy = false,
     config = function()
-      local capabilities = require("cmp_nvim_lsp").default_capabilities()
       local lspconfig = vim.lsp.config
+      local blink = require("blink.cmp")
 
-      lspconfig.lua_ls.setup = {
-        capabilities = capabilities,
+      local servers = {
+        lua_ls = {},
+        ts_ls = {}
       }
 
-      lspconfig.ts_ls.setup = {
-        capabilities = capabilities,
-      }
+      for server, config in pairs(servers) do
+        config.capabilities = blink.get_lsp_capabilities(config.capabilities)
+
+        lspconfig[server] = config
+      end
 
       vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
       vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, {})
