@@ -1,30 +1,33 @@
 return {
-  "nvimtools/none-ls.nvim",
-  config = function()
-    local null_ls = require("null-ls")
-    null_ls.setup({
-      sources = {
-        null_ls.builtins.formatting.stylua,
+  "stevearc/conform.nvim",
+  event = { "BufWritePre" },
+  cmd = { "ConformInfo" },
+  opts = {
+    formatters_by_ft = {
+      lua = { "stylua" },
+      javascript = { "prettier", stop_after_first = true },
 
-        null_ls.builtins.formatting.prettier,
+      -- ["*"] = { "trim_whitespace" }, -- bugado (9fd3d5e)
+      ["_"] = { "trim_whitespace", lsp_format = "prefer" }
+    },
+    default_format_opts = {
+      lsp_format = "fallback",
+    },
+    format_on_save = { timeout_ms = 500 },
+    formatters = {
+      shfmt = {
+        append_args = { "-i", "2" },
       },
-    })
+    },
+    notify_on_error = true,
+    notify_no_formatters = true,
+  },
+  init = function()
+    local wk = require("which-key")
+    local conform = require("conform")
 
-    vim.keymap.set("n", "<leader>gf", vim.lsp.buf.format, {})
-
-    local augroup = vim.api.nvim_create_augroup("LspFormatting", { clear = true })
-    vim.api.nvim_create_autocmd("BufWritePre", {
-      group = augroup,
-      callback = function()
-        vim.lsp.buf.format({ async = false })
-      end,
-    })
-
-    vim.api.nvim_create_autocmd("InsertLeave", {
-      group = augroup,
-      callback = function()
-        vim.lsp.buf.format({ async = false })
-      end,
+    wk.add({
+      { "<leader>lf", function() conform.format({ async = true }) end, desc = "Format Buffer" },
     })
   end,
 }
