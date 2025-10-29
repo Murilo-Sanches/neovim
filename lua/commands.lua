@@ -59,7 +59,10 @@ vim.api.nvim_create_user_command("FormatFiles", function(opts)
 		vim.api.nvim_set_current_buf(buf_original)
 	end
 
-	vim.notify(string.format("Formatted %d files in %s", formatted_count, target_dir), vim.log.levels.INFO)
+	vim.notify(
+		string.format("Formatted %d files in %s", formatted_count, target_dir),
+		vim.log.levels.INFO
+	)
 end, {
 	desc = "Format directory files with optional include/exclude patterns",
 	nargs = "*",
