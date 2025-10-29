@@ -10,15 +10,35 @@ return {
 					"github:mason-org/mason-registry",
 					"github:Crashdummyy/mason-registry", -- Roslyn
 				},
-				ensure_installed = { "roslyn" },
 			})
 		end,
 	},
 	{
 		"mason-org/mason-lspconfig.nvim",
-		opts = {
-			ensure_installed = available_mason_servers,
-		},
+		opts = {},
+	},
+	{
+		"WhoIsSethDaniel/mason-tool-installer.nvim",
+		config = function()
+			require("mason-tool-installer").setup({
+				ensure_installed = {
+					-- LSP
+					"lua_ls",
+					"ts_ls",
+					"roslyn",
+
+					-- Linters
+					"luacheck",
+					"eslint_d",
+
+					-- Formatters
+					"stylua",
+					"prettier",
+				},
+				auto_update = true,
+				run_on_start = true,
+			})
+		end,
 	},
 	{
 		"neovim/nvim-lspconfig",
