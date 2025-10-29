@@ -1,3 +1,5 @@
+local available_mason_servers = { "lua_ls", "ts_ls" }
+
 return {
   {
     "mason-org/mason.nvim",
@@ -8,14 +10,14 @@ return {
           "github:mason-org/mason-registry",
           "github:Crashdummyy/mason-registry", -- Roslyn
         },
+        ensure_installed = { "roslyn" },
       })
     end,
   },
   {
     "mason-org/mason-lspconfig.nvim",
-    lazy = false,
     opts = {
-      auto_install = true,
+      ensure_installed = available_mason_servers,
     },
   },
   {
@@ -27,23 +29,16 @@ return {
       local blink = require("blink.cmp")
       local wk = require("which-key")
 
-      local servers = {
-        lua_ls = {},
-        ts_ls = {}
-      }
+      for _, server in ipairs(available_mason_servers) do
+        local ok, config = pcall(require, "servers." .. server)
+        if ok then
+          config.capabilities = blink.get_lsp_capabilities(config.capabilities)
 
-      for server, config in pairs(servers) do
-        config.capabilities = blink.get_lsp_capabilities(config.capabilities)
-
-        lspconfig[server] = config
+          lspconfig[server] = config
+        else
+          vim.notify("LSP config not found for: " .. server, vim.log.levels.WARN)
+        end
       end
-
-      wk.add({
-        { "<leader>lk", vim.lsp.buf.hover, desc = "Hover" },
-        { "<leader>lgd", vim.lsp.buf.definition, desc = "Definition" },
-        { "<leader>lr", vim.lsp.buf.references, desc = "References" },
-        { "<leader>la", vim.lsp.buf.code_action, desc = "Action" },
-      })
 
       vim.diagnostic.config({
         virtual_text = {
