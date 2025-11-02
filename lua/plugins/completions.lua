@@ -28,8 +28,8 @@ return {
 			},
 			keymap = {
 				preset = "enter",
-				["<Tab>"] = { "select_next", "fallback" },
-				["<S-Tab>"] = { "select_prev", "fallback" },
+				["<Tab>"] = { "snippet_forward", "select_next" },
+				["<S-Tab>"] = { "snippet_backward", "select_prev" },
 			},
 			completion = { documentation = { auto_show = true } },
 		},
