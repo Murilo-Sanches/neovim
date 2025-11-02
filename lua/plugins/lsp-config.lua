@@ -26,14 +26,20 @@ return {
 					"lua_ls",
 					"ts_ls",
 					"roslyn",
+					"clangd",
+
+					-- DAP
+					"cpptools",
 
 					-- Linters
 					"luacheck",
 					"eslint_d",
+					"cpplint",
 
 					-- Formatters
 					"stylua",
 					"prettier",
+					"clang-format",
 				},
 				auto_update = true,
 				run_on_start = true,

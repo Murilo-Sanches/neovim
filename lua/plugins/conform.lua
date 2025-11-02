@@ -6,6 +6,8 @@ return {
 		formatters_by_ft = {
 			lua = { "stylua" },
 			javascript = { "prettier", stop_after_first = true },
+			c = { "clang-format" },
+			cpp = { "clang-format" },
 
 			-- ["*"] = { "trim_whitespace" }, -- bugado (9fd3d5e)
 			["_"] = { "trim_whitespace", lsp_format = "prefer" },
