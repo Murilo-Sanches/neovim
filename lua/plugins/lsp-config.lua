@@ -27,6 +27,7 @@ return {
 					"ts_ls",
 					"roslyn",
 					"clangd",
+					"asm-lsp",
 
 					-- DAP
 					"cpptools",
@@ -40,6 +41,7 @@ return {
 					"stylua",
 					"prettier",
 					"clang-format",
+					"asmfmt",
 				},
 				auto_update = true,
 				run_on_start = true,
@@ -93,6 +95,16 @@ return {
 						{ "<leader>lr", vim.lsp.buf.references, desc = "References" },
 						{ "<leader>la", vim.lsp.buf.code_action, desc = "Action" },
 					})
+
+					local client = vim.lsp.get_client_by_id(event.data.client_id)
+					if not client then
+						return
+					end
+
+					local ft = vim.bo[event.buf].filetype
+					if ft == "asm" then
+						return
+					end
 
 					local highlight_augroup = vim.api.nvim_create_augroup("lsp-highlight", { clear = false })
 					vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
