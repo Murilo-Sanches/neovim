@@ -26,8 +26,8 @@ return {
 
 		local header_hl = {
 			-- Empty lines
-			{ { "Red", 1, 1 } },
-			{ { "Red", 1, 1 } },
+			-- { { "Red", 1, 1 } },
+			-- { { "Red", 1, 1 } },
 
 			{ { "AlphaHeader0_0", 46, 48 } },
 			{
@@ -119,11 +119,9 @@ return {
 		dashboard.section.header.val = header_val
 
 		dashboard.section.buttons.val = {
-			dashboard.button("n", "  Novo Buffer", ":ene <BAR> startinsert<CR>"),
-			dashboard.button("f", "󰈞  Buscar Arquivos", ":Telescope find_files<CR>"),
-			dashboard.button("r", "󰄉  Arquivos Recentes", ":Telescope oldfiles<CR>"),
-			dashboard.button("u", "󱐥  Atualizar Plugins", "<cmd>Lazy update<CR>"),
-			dashboard.button("s", "  Configurações", ":cd " .. init_path .. "<CR>:e init.lua<CR>"),
+			dashboard.button("ff", "󰍉  Find Files", ":Telescope find_files<CR>"),
+			dashboard.button("fr", "  Recent Files", ":Telescope oldfiles<CR>"),
+			dashboard.button("fg", "󰱽  Live Grep", ":Telescope live_grep<CR>"),
 			dashboard.button("tw", "  Pin Workspace", function()
 				local cwd = vim.fn.getcwd()
 				local name = vim.fn.fnamemodify(cwd, ":t")
@@ -143,10 +141,13 @@ return {
 				end
 			end),
 
-			dashboard.button("vw", "  Workspaces", function()
+			dashboard.button("vw", "  Workspaces", function()
 				telescope.extensions.workspaces.workspaces()
 			end),
-			dashboard.button("q", "󰿅  Sair", "<cmd>q<CR>"),
+			dashboard.button("L", "󱐥  Lazy", "<cmd>Lazy<CR>"),
+			dashboard.button("M", "ƒ  Mason", "<cmd>Mason<CR>"),
+			dashboard.button("s", "  Settings", ":cd " .. init_path .. "<CR>:e init.lua<CR>"),
+			dashboard.button("q", "󰿅  Quit", "<cmd>q<CR>"),
 		}
 
 		vim.api.nvim_create_autocmd("User", {
@@ -161,7 +162,7 @@ return {
 					" Foram carregados " .. stats.count .. " plugins  em " .. ms .. " ms ",
 				}
 
-				for i = 1, 16 do
+				for i = 1, 14 do
 					table.insert(dashboard.section.footer.val, " ")
 				end
 
