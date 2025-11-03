@@ -9,6 +9,7 @@ return {
 			c = { "clang-format" },
 			cpp = { "clang-format" },
 			asm = { "asmfmt" },
+			sh = { "shfmt" },
 
 			-- ["*"] = { "trim_whitespace" }, -- bugado (9fd3d5e)
 			["_"] = { "trim_whitespace", lsp_format = "prefer" },

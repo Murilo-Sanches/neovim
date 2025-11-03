@@ -28,20 +28,24 @@ return {
 					"roslyn",
 					"clangd",
 					"asm-lsp",
+					"bash-language-server",
 
 					-- DAP
 					"cpptools",
+					"bash-debug-adapter",
 
 					-- Linters
 					"luacheck",
 					"eslint_d",
 					"cpplint",
+					"shellcheck",
 
 					-- Formatters
 					"stylua",
 					"prettier",
 					"clang-format",
 					"asmfmt",
+					"shfmt",
 				},
 				auto_update = true,
 				run_on_start = true,
