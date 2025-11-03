@@ -61,20 +61,18 @@ return {
 
 		local init_path = vim.fn.stdpath("config")
 
-		local logo = [[
-
-
-                                              
-       ███████████           █████      ██
-      ███████████             █████ 
-      ████████████████ ███████████ ███   ███████
-     ████████████████ ████████████ █████ ██████████████
-    █████████████████████████████ █████ █████ ████ █████
-  ██████████████████████████████████ █████ █████ ████ █████
- ██████  ███ █████████████████ ████ █████ █████ ████ ██████
- ██████   ██  ███████████████   ██ █████████████████
-
-    ]]
+		-- https://patorjk.com/software/taag/#p=display&f=Georgia11&t=NEOVIM&x=none&v=0&h=4&w=80&we=false
+		local logo = [[                                                                       
+                                                                       
+`7MN.   `7MF'`7MM"""YMM    .g8""8q.`7MMF'   `7MF'`7MMF'`7MMM.     ,MMF'
+  MMN.    M    MM    `7  .dP'    `YM.`MA     ,V    MM    MMMb    dPMM  
+  M YMb   M    MM   d    dM'      `MM VM:   ,V     MM    M YM   ,M MM  
+  M  `MN. M    MMmmMM    MM        MM  MM.  M'     MM    M  Mb  M' MM  
+  M   `MM.M    MM   Y  , MM.      ,MP  `MM A'      MM    M  YM.P'  MM  
+  M     YMM    MM     ,M `Mb.    ,dP'   :MM;       MM    M  `YM'   MM  
+.JML.    YM  .JMMmmmmMMM   `"bmmd"'      VF      .JMML..JML. `'  .JMML.
+                                                                       
+                                                                       ]]
 
 		local header_hl = {
 			-- Empty lines
