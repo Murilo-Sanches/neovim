@@ -159,7 +159,7 @@ return {
 				local ms = math.floor(stats.startuptime * 100 + 0.5) / 100
 
 				dashboard.section.footer.val = {
-					" Foram carregados " .. stats.count .. " plugins  em " .. ms .. " ms ",
+					" " .. stats.count .. " plugins  loaded in " .. ms .. " ms 󱎫",
 				}
 
 				for i = 1, 14 do
