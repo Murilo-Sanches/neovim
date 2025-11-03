@@ -23,5 +23,21 @@ return {
 		})
 
 		telescope.load_extension("workspaces")
+
+		vim.api.nvim_create_autocmd("VimLeavePre", {
+			callback = function()
+				local file = os.getenv("NVIM_LAST_DIR")
+
+				if file then
+					local cwd = vim.fn.getcwd()
+					local f = io.open(file, "w")
+
+					if f then
+						f:write(cwd)
+						f:close()
+					end
+				end
+			end,
+		})
 	end,
 }

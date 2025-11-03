@@ -36,3 +36,20 @@ if ! pidof socat > /dev/null 2>&1; then
         EXEC:"/mnt/c/tools/npiperelay.exe //./pipe/discord-ipc-0" >/dev/null 2>&1 &
 fi
 ```
+
+## CD on workspace switch (`vim.api.nvim_create_autocmd("VimLeavePre", function() end)`):
+```sh
+nvim() {
+  local tmpfile="/tmp/nvim-last-dir"
+  NVIM_LAST_DIR="$tmpfile" /opt/nvim/nvim "$@"
+
+  if [ -f "$tmpfile" ]; then
+    local dir
+    dir=$(cat "$tmpfile")
+
+    if [ -d "$dir" ]; then
+      cd "$dir" || return
+    fi
+  fi
+}
+```
