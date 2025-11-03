@@ -187,6 +187,29 @@ return {
 			dashboard.button("r", "󰄉  Arquivos Recentes", ":Telescope oldfiles<CR>"),
 			dashboard.button("u", "󱐥  Atualizar Plugins", "<cmd>Lazy update<CR>"),
 			dashboard.button("s", "  Configurações", ":cd " .. init_path .. "<CR>:e init.lua<CR>"),
+			dashboard.button("tw", "  Pin Workspace", function()
+				local ws = require("workspaces")
+				local cwd = vim.fn.getcwd()
+				local name = vim.fn.fnamemodify(cwd, ":t")
+				local already_favorited = false
+
+				for _, workspace in ipairs(ws.get()) do
+					if cwd:gsub("/$", "") == workspace.path:gsub("/$", "") then
+						already_favorited = true
+						ws.remove(workspace.name)
+						vim.notify("Removed workspace: " .. workspace.name, vim.log.levels.INFO)
+					end
+				end
+
+				if not already_favorited then
+					ws.add(cwd, name)
+					vim.notify("Added workspace: " .. name, vim.log.levels.INFO)
+				end
+			end),
+
+			dashboard.button("vw", "  Workspaces", function()
+				require("telescope").extensions.workspaces.workspaces()
+			end),
 			dashboard.button("q", "󰿅  Sair", "<cmd>q<CR>"),
 		}
 
