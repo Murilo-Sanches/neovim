@@ -7,7 +7,8 @@ return {
 	config = function()
 		local alpha = require("alpha")
 		local dashboard = require("alpha.themes.dashboard")
-
+		local ws = require("workspaces")
+		local telescope = require("telescope")
 		local init_path = vim.fn.stdpath("config")
 
 		-- https://patorjk.com/software/taag/#p=display&f=Georgia11&t=NEOVIM&x=none&v=0&h=4&w=80&we=false
@@ -124,7 +125,6 @@ return {
 			dashboard.button("u", "󱐥  Atualizar Plugins", "<cmd>Lazy update<CR>"),
 			dashboard.button("s", "  Configurações", ":cd " .. init_path .. "<CR>:e init.lua<CR>"),
 			dashboard.button("tw", "  Pin Workspace", function()
-				local ws = require("workspaces")
 				local cwd = vim.fn.getcwd()
 				local name = vim.fn.fnamemodify(cwd, ":t")
 				local already_favorited = false
@@ -144,7 +144,7 @@ return {
 			end),
 
 			dashboard.button("vw", "  Workspaces", function()
-				require("telescope").extensions.workspaces.workspaces()
+				telescope.extensions.workspaces.workspaces()
 			end),
 			dashboard.button("q", "󰿅  Sair", "<cmd>q<CR>"),
 		}
