@@ -1,54 +1,3 @@
-local function getGreeting(name)
-	local tableTime = os.date("*t")
-
-	local hour = tableTime.hour
-
-	local greetingsTable = {
-		[1] = "  Ainda acordado",
-		[2] = "  Bom dia",
-		[3] = "  Boa tarde",
-		[4] = "  Boa noite",
-		[5] = "󰖔  Tenha uma boa noite",
-	}
-
-	local greetingIndex = 0
-	if hour == 23 or hour < 7 then
-		greetingIndex = 1
-	elseif hour < 12 then
-		greetingIndex = 2
-	elseif hour >= 12 and hour < 18 then
-		greetingIndex = 3
-	elseif hour >= 18 and hour < 21 then
-		greetingIndex = 4
-	elseif hour >= 21 then
-		greetingIndex = 5
-	end
-
-	if greetingIndex == 1 then
-		return greetingsTable[greetingIndex] .. " " .. name .. "?"
-	else
-		return greetingsTable[greetingIndex] .. ", " .. name
-	end
-end
-
-local function getToday()
-	local week = {
-		Sunday = "Domingo",
-		Monday = "Segunda-feira",
-		Tuesday = "Terça-feira",
-		Wednesday = "Quarta-feira",
-		Thursday = "Quinta-feira",
-		Friday = "Sexta-feira",
-		Saturday = "Sábado",
-	}
-
-	local day = os.date("%A")
-
-	local datetime = os.date(" %d/%m/%Y ") .. week[day] or day .. os.date("   %H:%M:%S ")
-
-	return datetime
-end
-
 return {
 	"goolord/alpha-nvim",
 	dependencies = {
@@ -168,17 +117,6 @@ return {
 		dashboard.section.header.opts.hl = header_hl
 		dashboard.section.header.val = header_val
 
-		local greeting = getGreeting("Murilo")
-
-		local logoWidth = 70
-		local greetingWidth = #greeting
-		local padding = math.floor((logoWidth - greetingWidth) / 2)
-		local paddedGreeting = string.rep(" ", math.max(padding, 0)) .. greeting
-
-		table.insert(dashboard.section.header.val, "")
-		table.insert(dashboard.section.header.val, paddedGreeting)
-		table.insert(dashboard.section.header.val, "")
-
 		dashboard.section.buttons.val = {
 			dashboard.button("n", "  Novo Buffer", ":ene <BAR> startinsert<CR>"),
 			dashboard.button("f", "󰈞  Buscar Arquivos", ":Telescope find_files<CR>"),
@@ -220,23 +158,12 @@ return {
 				local ms = math.floor(stats.startuptime * 100 + 0.5) / 100
 
 				dashboard.section.footer.val = {
-					"          " .. getToday(),
-					" ",
 					" Foram carregados " .. stats.count .. " plugins  em " .. ms .. " ms ",
-					" ",
-					" ",
-					" ",
-					" ",
-					" ",
-					" ",
-					" ",
-					" ",
-					" ",
-					" ",
-					" ",
-					" ",
-					" ",
 				}
+
+				for i = 1, 16 do
+					table.insert(dashboard.section.footer.val, " ")
+				end
 
 				pcall(vim.cmd.AlphaRedraw)
 			end,
