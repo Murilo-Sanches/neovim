@@ -9,6 +9,7 @@ vim.g.background = "light"
 vim.opt.swapfile = false
 
 vim.wo.number = true
+vim.wo.relativenumber = true
 
 vim.opt.clipboard = "unnamedplus"
 if vim.fn.has("wsl") == 1 then
