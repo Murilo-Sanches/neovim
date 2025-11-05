@@ -16,8 +16,8 @@ if vim.fn.has("wsl") == 1 then
 		name = "win32yank-wsl",
 		copy = { ["+"] = "clip.exe", ["*"] = "clip.exe" },
 		paste = {
-			["+"] = "powershell.exe -Command Get-Clipboard",
-			["*"] = "powershell.exe -Command Get-Clipboard",
+			["+"] = "powershell.exe -NoLogo -NoProfile -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace(\"`r\", \"\"))",
+			["*"] = "powershell.exe -NoLogo -NoProfile -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace(\"`r\", \"\"))",
 		},
 		cache_enabled = 0,
 	}
