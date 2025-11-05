@@ -14,6 +14,55 @@ return {
 		local finders = require("telescope.finders")
 		local conf = require("telescope.config").values
 
+		local function make_entry_maker()
+			return function(entry)
+				return {
+					value = entry,
+					display = entry.name .. " - " .. entry.path,
+					ordinal = entry.name .. " " .. entry.path,
+				}
+			end
+		end
+
+		local function refresh_picker(prompt_bufnr)
+			local picker = action_state.get_current_picker(prompt_bufnr)
+			picker:refresh(
+				finders.new_table({
+					results = ws.get(),
+					entry_maker = make_entry_maker(),
+				}),
+				{ reset_prompt = true }
+			)
+		end
+
+		local function remove_workspace(prompt_bufnr, selection)
+			if not selection then
+				vim.notify("Nothing selected", vim.log.levels.WARN)
+
+				return
+			end
+
+			local name = selection.value.name or vim.fn.fnamemodify(selection.value, ":t")
+			ws.remove(name)
+			vim.notify("Removed workspace: " .. name, vim.log.levels.WARN)
+			if prompt_bufnr then
+				refresh_picker(prompt_bufnr)
+			end
+		end
+
+		local function add_workspace(selection)
+			if not selection then
+				vim.notify("Nothing selected", vim.log.levels.WARN)
+
+				return
+			end
+
+			local path = selection.value
+			local name = vim.fn.fnamemodify(path, ":t")
+			ws.add(path, name)
+			vim.notify("Added workspace: " .. name, vim.log.levels.INFO)
+		end
+
 		ws.setup({
 			hooks = {
 				open_pre = { "silent %bdelete!" },
@@ -33,13 +82,7 @@ return {
 					prompt_title = "Workspaces",
 					finder = finders.new_table({
 						results = ws.get(),
-						entry_maker = function(entry)
-							return {
-								value = entry,
-								display = entry.name .. " - " .. entry.path,
-								ordinal = entry.name .. " " .. entry.path,
-							}
-						end,
+						entry_maker = make_entry_maker(),
 					}),
 					sorter = conf.generic_sorter({}),
 					attach_mappings = function(prompt_bufnr, map)
@@ -50,34 +93,9 @@ return {
 							ws.open(selection.value.name)
 						end)
 
-						local function remove_workspace()
-							local selection = action_state.get_selected_entry()
-
-							if not selection then
-								vim.notify("Nothing selected", vim.log.levels.WARN)
-								return
-							end
-
-							ws.remove(selection.value.name)
-							vim.notify("Removed workspace: " .. selection.value.name, vim.log.levels.WARN)
-
-							local picker = action_state.get_current_picker(prompt_bufnr)
-							picker:refresh(
-								finders.new_table({
-									results = ws.get(),
-									entry_maker = function(entry)
-										return {
-											value = entry,
-											display = entry.name .. " - " .. entry.path,
-											ordinal = entry.name .. " " .. entry.path,
-										}
-									end,
-								}),
-								{ reset_prompt = true }
-							)
-						end
-
-						map("n", "dd", remove_workspace)
+						map("n", "dd", function()
+							remove_workspace(prompt_bufnr, action_state.get_selected_entry())
+						end)
 
 						return true
 					end,
@@ -103,36 +121,13 @@ return {
 							vim.notify("Use 'a' to add or 'dd' to remove a workspace.", vim.log.levels.INFO)
 						end)
 
-						local function add_workspace()
-							local selection = action_state.get_selected_entry()
+						map("n", "a", function()
+							add_workspace(action_state.get_selected_entry())
+						end)
 
-							if not selection then
-								vim.notify("Nothing selected", vim.log.levels.WARN)
-								return
-							end
-
-							local path = selection.value
-							local name = vim.fn.fnamemodify(path, ":t")
-
-							ws.add(path, name)
-							vim.notify("Added workspace: " .. name, vim.log.levels.INFO)
-						end
-
-						local function remove_workspace()
-							local selection = action_state.get_selected_entry()
-
-							if not selection then
-								vim.notify("Nothing selected", vim.log.levels.WARN)
-								return
-							end
-
-							local name = vim.fn.fnamemodify(selection.value, ":t")
-							ws.remove(name)
-							vim.notify("Removed workspace: " .. name, vim.log.levels.WARN)
-						end
-
-						map("n", "a", add_workspace)
-						map("n", "dd", remove_workspace)
+						map("n", "dd", function()
+							remove_workspace(nil, action_state.get_selected_entry())
+						end)
 
 						return true
 					end,
