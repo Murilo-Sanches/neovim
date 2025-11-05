@@ -144,6 +144,9 @@ return {
 			dashboard.button("vw", "  Workspaces", function()
 				telescope.extensions.workspaces.workspaces()
 			end),
+			dashboard.button("aw", "  Add Workspaces", function()
+				telescope.extensions.workspaces.add_from_finder()
+			end),
 			dashboard.button("L", "󱐥  Lazy", "<cmd>Lazy<CR>"),
 			dashboard.button("M", "ƒ  Mason", "<cmd>Mason<CR>"),
 			dashboard.button("s", "  Settings", ":cd " .. init_path .. "<CR>:e init.lua<CR>"),
