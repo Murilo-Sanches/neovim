@@ -11,6 +11,11 @@ vim.opt.swapfile = false
 vim.wo.number = true
 vim.wo.relativenumber = true
 
+vim.opt.foldlevel = 20
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.opt.foldenable = false
+
 vim.opt.clipboard = "unnamedplus"
 if vim.fn.has("wsl") == 1 then
 	vim.g.clipboard = {
